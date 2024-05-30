@@ -2,7 +2,7 @@ version: '3.8'
 services:
 
   reverse-proxy:
-    image: haproxy
+    image: haproxy:2.4
     restart: always
     networks:
         backend: {}
