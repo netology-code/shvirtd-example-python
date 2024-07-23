@@ -1,1 +1,11 @@
+compose.yaml
 .env
+.git
+.gitignore
+haproxy
+LICENSE
+nginx
+proxy.yaml
+README.md
+README_old.md
+schema.pdf
