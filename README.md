@@ -17,4 +17,4 @@ Docker Compose version v2.28.1
 
 ## Задача 2 (*) ##
 
-Отчет о сканировании тут
+Отчет о сканировании тут (тут)![https://github.com/Granit16/shvirtd-example-python/blob/next/vulnerabilities.csv]
