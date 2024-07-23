@@ -37,4 +37,7 @@ damir@dz5:~/rrr/shvirtd-example-python$ curl -L http://127.0.0.1:8090
 TIME: 2024-07-23 09:55:59, IP: 127.0.0.1damir@dz5:~/rrr/shvirtd-example-python$
 ```
 
+Результат подключения к контейнур с БД и выполенения запроса представлен на скриншоте:
+![alt text](https://github.com/Granit16/shvirtd-example-python/blob/next/SQL.png?raw=true)
+
 
