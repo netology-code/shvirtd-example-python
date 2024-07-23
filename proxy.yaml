@@ -12,7 +12,7 @@ services:
     - ./haproxy/reverse/haproxy.cfg:/usr/local/etc/haproxy/haproxy.cfg:rw 
 
   ingress-proxy:
-    image: nginx:latest
+    image: nginx:1.21.1
     restart: always
     network_mode: host
     volumes:
