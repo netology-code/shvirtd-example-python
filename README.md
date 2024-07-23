@@ -1,30 +1,43 @@
-# shvirtd-example-python
+# Домашнее задание к занятию 5. «Практическое применение Docker»
 
-Example Flask-application for docker compose training.
-## Installation
-First, you need to clone this repository:
 
-```bash
-git clone https://github.com/netology-code/shvirtd-example-python.git
+## Задача 0 ##
+
+Установлены соответствующие версии пакетов:
+```
+damir@dz5:~$ docker --version
+Docker version 27.0.3, build 7d4bcd8
+damir@dz5:~$ docker compose version
+Docker Compose version v2.28.1
 ```
 
-Now, we will need to create a virtual environment and install all the dependencies:
 
-```bash
-python3 -m venv venv  # on Windows, use "python -m venv venv" instead
-. venv/bin/activate   # on Windows, use "venv\Scripts\activate" instead
-pip install -r requirements.txt
-python main.py
+## Задача 1 ##
+
+Форк репозитария создан, создан dockerfile (Dockerfile.python), образ собирается, при этом файл requirements.txt копируется в образ для дальнейшей настройки окружения.
+В .dockerignore указаны все файлы, не имеющие отношения к сборке образа.
+
+
+## Задача 2 (*) ##
+
+Отчет о сканировании тут: https://github.com/Granit16/shvirtd-example-python/blob/next/vulnerabilities.csv
+
+
+## Задача 3 ##
+
+Файл compose.yaml создан, файл "proxy.yaml" продключен к нему с помощью директивы "include".
+Образ приложения web собирается из файла Dockerfile.python, все остальные параметры соответствуют заданию.
+Переменные в приложение передаются через файл .env и/или через переменные окружения в разделе environment.
+
+Приложение db создается в соответсвии с заданными параметрами, переменные для создания пароля root, БД и данных пользователя передаются через файл .env.
+
+После запуска приложений команда curl выдает ожидаемый результат:
 ```
-You need to run Mysql database and provide following ENV-variables for connection:  
-- DB_HOST (default: '127.0.0.1')
-- DB_USER (default: 'app')
-- DB_PASSWORD (default: 'very_strong')
-- DB_NAME (default: 'example')
+damir@dz5:~/rrr/shvirtd-example-python$ curl -L http://127.0.0.1:8090
+TIME: 2024-07-23 09:55:59, IP: 127.0.0.1damir@dz5:~/rrr/shvirtd-example-python$
+```
 
-The applications will always running on http://localhost:5000.  
-To exit venv just type ```deactivate```
+Результат подключения к контейнур с БД и выполенения запроса представлен на скриншоте:
+![alt text](https://github.com/Granit16/shvirtd-example-python/blob/next/SQL.png?raw=true)
 
-## License
 
-This project is licensed under the MIT License (see the `LICENSE` file for details).
