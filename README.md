@@ -1,30 +1,96 @@
 # shvirtd-example-python
 
-Example Flask-application for docker compose training.
-## Installation
-First, you need to clone this repository:
+Учебный проект FastAPI-приложения для изучения Docker Compose.
 
-```bash
-git clone https://github.com/netology-code/shvirtd-example-python.git
+## Описание проекта
+
+Это простое веб-приложение на FastAPI, предназначенное для изучения контейнеризации и работы с Docker Compose. Приложение демонстрирует:
+
+- Создание веб-сервиса на FastAPI
+- Подключение к базе данных MySQL
+- Работу с прокси-серверами (Nginx → HAProxy → FastAPI)
+- Корректную настройку сетей Docker
+- Передачу IP-адресов через заголовки прокси
+
+### Функциональность
+
+При обращении к главной странице приложение:
+1. Определяет IP-адрес клиента
+2. Записывает время запроса и IP-адрес в базу данных MySQL
+3. Возвращает эту информацию пользователю
+
+**Важно для обучения:** Если обращаться к приложению напрямую (минуя прокси), вы получите подсказку о неправильном выполнении задания.
+
+## Способы запуска
+
+### 1. Запуск через Docker Compose
+
+**Архитектура при запуске через Docker Compose:**
+```
+Клиент → Nginx (8090) → HAProxy (8080) → FastAPI App (5000) → MySQL
 ```
 
-Now, we will need to create a virtual environment and install all the dependencies:
+### 2. Локальный запуск для разработки
 
 ```bash
-python3 -m venv venv  # on Windows, use "python -m venv venv" instead
-. venv/bin/activate   # on Windows, use "venv\Scripts\activate" instead
+# Создайте виртуальное окружение
+python3 -m venv venv
+source venv/bin/activate  # в Windows: venv\Scripts\activate
+
+# Установите зависимости
 pip install -r requirements.txt
-python main.py
+
+# Настройте переменные окружения для подключения к БД(не забудьте отдельно запустить БД)
+export DB_HOST='127.0.0.1'
+export DB_USER='app'  
+export DB_PASSWORD='very_strong'
+export DB_NAME='example'
+
+# Запустите приложение
+uvicorn main:app --host 0.0.0.0 --port 5000 --reload
 ```
-You need to run Mysql database and provide following ENV-variables for connection:  
-- DB_HOST (default: '127.0.0.1')
-- DB_USER (default: 'app')
-- DB_PASSWORD (default: 'very_strong')
-- DB_NAME (default: 'example')
 
-The applications will always running on http://localhost:5000.  
-To exit venv just type ```deactivate```
+**Требования для локального запуска:**
+- Python 3.12+
+- Запущенный сервер MySQL
+- База данных и пользователь, настроенные согласно переменным окружения
 
-## License
+## Настройка базы данных MySQL
 
-This project is licensed under the MIT License (see the `LICENSE` file for details).
+```sql
+CREATE DATABASE example;
+CREATE USER 'app'@'localhost' IDENTIFIED BY 'very_strong';
+GRANT ALL PRIVILEGES ON example.* TO 'app'@'localhost';
+FLUSH PRIVILEGES;
+```
+
+## Доступные эндпоинты
+
+- `GET /` - главная страница (записывает запрос в БД и возвращает время + IP)
+- `GET /requests` - просмотр всех записей из базы данных  
+- `GET /debug` - отладочная информация о заголовках запроса
+- `GET /docs` - автоматическая документация FastAPI (Swagger UI)
+
+## Переменные окружения
+
+| Переменная | Значение по умолчанию | Описание |
+|------------|----------------------|----------|
+| `DB_HOST` | `127.0.0.1` | Хост базы данных MySQL |
+| `DB_USER` | `app` | Пользователь БД |
+| `DB_PASSWORD` | `very_strong` | Пароль БД |
+| `DB_NAME` | `example` | Имя базы данных |
+
+## Проверка работы
+
+```bash
+# При правильной настройке через прокси
+curl http://localhost:8090
+
+# При прямом обращении (НЕПРАВИЛЬНО) 
+curl http://localhost:5000  
+# Получите подсказку о том, что нужно использовать порт 8090
+```
+
+## Лицензия
+
+Этот проект распространяется под лицензией MIT (подробности в файле `LICENSE`).
