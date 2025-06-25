@@ -22,7 +22,7 @@ services:
 
   web:
     build:
-          dockerfile: Dockerfile.python
+          dockerfile: Dockerfile
     restart: on-failure
     environment:
 -	MYSQL_ROOT_PASSWORD: YtReWq4321
