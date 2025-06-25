@@ -1,0 +1,37 @@
+version: '3.7'
+include:
+  - proxy.yaml
+
+volumes:
+  db_mysql:
+
+services:
+
+  db:
+    image: mysql:8
+    restart: on-failure
+    env_file:
+      - .env
+    volumes:
+      - /var/lib/docker/volumes/db_mysql/_data:/var/lib/mysql
+    ports:
+      - 3306:3306
+    networks:
+      backend:
+        ipv4_address: 172.20.0.10
+
+  web:
+    build:
+          dockerfile: Dockerfile.python
+    restart: on-failure
+    environment:
+-	MYSQL_ROOT_PASSWORD: YtReWq4321
+-	MYSQL_DATABASE: virtd
+-	MYSQL_USER: app
+-	MYSQL_PASSWORD: QwErTy1234"   
+
+ depends_on:
+      - db
+    networks:
+      backend:
+        ipv4_address: 172.20.0.5
