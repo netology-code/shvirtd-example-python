@@ -1,0 +1,24 @@
+# Dockerfile.python
+
+FROM python:3.12-slim
+
+WORKDIR /app
+
+# Копируем зависимости и устанавливаем их
+COPY requirements.txt .
+RUN pip install --no-cache-dir -r requirements.txt
+
+# Копируем остальные файлы, включая .env
+COPY . .
+
+# Загружаем переменные окружения из .env
+ENV ENV_FILE=/app/.env
+
+# Проверяем наличие файла .env и загружаем переменные
+RUN if [ -f "$ENV_FILE" ]; then \
+        export $(cat $ENV_FILE | grep -v '#' | awk '/=/ {print $1}'); \
+    fi
+
+EXPOSE 5000
+
+CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "5000"]
