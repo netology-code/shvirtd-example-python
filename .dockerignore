@@ -1,0 +1,7 @@
+.git
+.gitignore
+README.md
+schema.pdf
+*.pyc
+__pycache__
+venv

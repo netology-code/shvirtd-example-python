@@ -1,0 +1,38 @@
+include:
+  - proxy.yaml
+services:
+
+  web:
+#    image: crpnjqqrd3n0mqvocb27/image
+    build:
+      context: .
+      dockerfile: Dockerfile.python
+    restart: always
+    networks:
+        backend:
+          ipv4_address: 172.20.0.5
+    environment:
+      DB_HOST: 172.20.0.10
+      DB_PORT: 3306
+      DB_NAME: ${MYSQL_DATABASE}
+      DB_USER: ${MYSQL_USER}
+      DB_PASS: ${MYSQL_PASSWORD}
+      DB_PASSWORD: ${MYSQL_PASSWORD}
+  db:
+    image: mysql:8
+    restart: always
+    networks:
+      backend:
+        ipv4_address: 172.20.0.10
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+
+networks:
+  backend:
+    driver: bridge
+    ipam:
+     config:
+       - subnet: 172.20.0.0/24
