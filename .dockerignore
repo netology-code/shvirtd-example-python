@@ -1,0 +1,12 @@
+.idea
+.git
+schema.pdf
+LICENCE
+Dockerfile.python
+*.md
+.gitignore
+Dockerfile*
+compose.yaml
+.env
+*.md
+*.sh
