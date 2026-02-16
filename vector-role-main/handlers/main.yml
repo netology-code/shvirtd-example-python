@@ -1,0 +1,8 @@
+---
+- name: vector_start
+  become: true
+  become_method: sudo
+  ansible.builtin.systemd:
+    name: vector
+    state: started
+    daemon_reload: true

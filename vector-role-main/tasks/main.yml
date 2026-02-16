@@ -1,0 +1,18 @@
+---
+- name: Vector | Install RPM
+  become: true
+  ansible.builtin.yum:
+    name: "{{ vector_url }}"
+    state: present
+- name: Vector | Template file
+  ansible.builtin.template:
+    src: vector.yml.j2
+    dest: vector.yml
+    mode: '0644'
+- name: Vector | Create Vector service
+  become: true
+  ansible.builtin.template:
+    src: vector.service.j2
+    dest: /etc/systemd/system/vector.service
+    mode: '0644'
+  notify: vector_start

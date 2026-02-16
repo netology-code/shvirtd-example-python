@@ -1,0 +1,5 @@
+---
+lighthouse_vcs: "https://github.com/VKCOM/lighthouse.git"
+lighthouse_location_dir: /var/www/lighthouse
+lighthouse_access_log_name: lighthouse
+nginx_user_name: nginx
