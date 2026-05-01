@@ -1,0 +1,38 @@
+version: '3.8'
+include:
+  - ./proxy.yaml
+
+services:
+    web:
+      image: hw_python_app:latest
+      container_name: web
+      restart: always
+      build:
+        context: .
+        dockerfile: Dockerfile.python
+      networks:
+          backend:  
+            ipv4_address: 172.20.0.5
+      env_file:
+      - .env 
+      environment:
+        - DB_HOST=db  
+        - DB_NAME=${MYSQL_DATABASE}
+        - DB_USER=${MYSQL_USER}
+        - DB_PASSWORD=${MYSQL_PASSWORD}
+    
+    db:
+      image: mysql:8
+      container_name: db
+      restart: always
+      networks:
+        backend:
+          ipv4_address: 172.20.0.10
+      env_file:
+        - .env 
+      volumes:
+        - mysql-data:/var/lib/mysql 
+
+volumes:
+  mysql-data:
+    driver: local
