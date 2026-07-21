@@ -1,0 +1,27 @@
+version: '3.8'
+services:
+
+  reverse-proxy:
+    image: haproxy:2.4
+    restart: always
+    networks:
+        backend: {}
+    ports:
+    - "127.0.0.1:8080:8080"
+    volumes:
+    - ./haproxy/reverse/haproxy.cfg:/usr/local/etc/haproxy/haproxy.cfg:rw 
+
+  ingress-proxy:
+    image: nginx:latest
+    restart: always
+    network_mode: host
+    volumes:
+    - ./nginx/ingress/default.conf:/etc/nginx/conf.d/default.conf:rw
+    - ./nginx/ingress/nginx.conf:/etc/nginx/nginx.conf:rw
+
+networks:
+  backend:
+    driver: bridge
+    ipam:
+     config:
+       - subnet: 172.20.0.0/24
