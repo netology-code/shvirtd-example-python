@@ -10,9 +10,9 @@ from typing import Optional
 # --- 1. Конфигурация ---
 # Считываем конфигурацию БД из переменных окружения
 db_host = os.environ.get('DB_HOST', '127.0.0.1')
-db_user = os.environ.get('DB_USER', 'app')
-db_password = os.environ.get('DB_PASSWORD', 'QwErTy1234')
-db_name = os.environ.get('DB_NAME', 'virtd')
+db_user = os.environ.get('MYSQL_USER')
+db_password = os.environ.get('MYSQL_PASSWORD')
+db_name = os.environ.get('MYSQL_DATABASE')
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
